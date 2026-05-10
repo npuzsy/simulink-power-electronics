@@ -1,6 +1,7 @@
 ---
 name: simulink-power-electronics
 description: Analyze, build, debug, and verify Simulink and Simscape Electrical power-electronics models, especially three-phase inverters, grid-connected converters, SPWM/SVPWM modulation, T-type or NPC three-level bridges, gate-signal routing, solver/simulation issues, and waveform validation. Use when Codex works on Simulink power electronics projects, reads converter design guides or PDFs, modifies modulation/control subsystems, diagnoses incorrect scope waveforms, compares expected and actual gate pulses, or creates reusable project documentation and simulation evidence.
+license: Apache-2.0
 ---
 
 # Simulink Power Electronics

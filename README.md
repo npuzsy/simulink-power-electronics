@@ -161,9 +161,11 @@ This is an early, focused skill. Issues and pull requests are welcome, especiall
 - grid-connection validation
 - clearer MCP setup notes across operating systems and agent hosts
 
+Unless stated otherwise, contributed code, documentation, scripts, and examples are expected to be shared under the same Apache-2.0 license as this project.
+
 ### License
 
-Choose a license before publishing this repository. If this skill is shared with the community, include a top-level `LICENSE` file in the repository that contains this skill.
+This project is licensed under the Apache License 2.0. See [`LICENSE`](LICENSE) for the full license text.
 
 ## 中文
 
@@ -324,6 +326,8 @@ Python 表格脚本不依赖第三方库。MATLAB 诊断脚本需要在安装了
 - 并网验证方法
 - 不同操作系统和 agent host 下更清晰的 MCP 配置经验
 
+除非另有说明，贡献到本项目的代码、文档、脚本和示例默认按照本项目相同的 Apache-2.0 许可证共享。
+
 ### 许可证
 
-正式开源前，请为仓库选择许可证。如果这个 Skill 要分享给社区，建议在包含本 Skill 的仓库顶层加入 `LICENSE` 文件。
+本项目使用 Apache License 2.0 开源。完整许可证文本见 [`LICENSE`](LICENSE)。
