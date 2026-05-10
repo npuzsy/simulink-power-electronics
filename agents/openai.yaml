@@ -1,0 +1,4 @@
+interface:
+  display_name: "Simulink Power Electronics"
+  short_description: "Analyze, debug, and verify Simulink power-electronics models."
+  default_prompt: "Use $simulink-power-electronics to inspect a Simulink power-electronics model, diagnose waveform or gate-signal issues, make scoped control or modulation fixes, and report simulation-backed evidence."
