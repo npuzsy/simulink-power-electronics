@@ -7,23 +7,22 @@ description: Use when working on Simulink or Simscape Electrical motor-drive pow
 
 ## Status
 
-Stub. Use the root `simulink-power-electronics` workflow for now. Do not apply three-phase grid-inverter assumptions unless the user explicitly asks and the model evidence supports them.
+Stub. Use this file only to recognize motor-drive scope and choose evidence to collect. Apply the root `simulink-power-electronics` workflow; do not reuse grid-inverter assumptions unless the inspected model path is genuinely shared.
 
-## Intended Scope
+## Scope
 
 - PMSM, BLDC, and induction motor drives
 - field-oriented control, direct torque control, six-step control, and current/torque/speed loops
 - inverter-fed machine gate, phase-current, torque, and speed validation
 - encoder, resolver, Hall, or sensorless feedback paths
 
-## Not Yet Provided
+## Evidence To Collect
 
-- motor-control-specific inspection checklist
-- FOC/DTC signal validation standards
-- machine parameter and sensor alignment checks
-- reusable MATLAB diagnostics
-- representative model tests
+- machine type, inverter topology, DC-link value, sample times, and active control mode
+- current, speed, torque, rotor-position, and sensor-alignment signals
+- gate order, phase sequence, and controller-to-plant signal routing
+- load step, speed command, torque command, or startup window used for validation
 
-## Promotion Criteria
+## Promote When
 
-Promote this stub to active only after adding domain references, at least one repeatable Simulink workflow, and validation checks for currents, torque/speed response, sensor alignment, and inverter gate legality.
+Promote only after adding motor-control references, a repeatable Simulink workflow, and checks for currents, torque/speed response, sensor alignment, and inverter gate legality.

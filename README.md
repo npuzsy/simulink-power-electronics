@@ -6,13 +6,13 @@ English | [中文](#中文)
 
 `simulink-power-electronics` is a Codex skill for Simulink and Simscape Electrical power-electronics work. Its main job is to route a task to the right power-electronics domain, then keep analysis and edits grounded in model evidence.
 
-The repository is organized as a root orchestrator plus domain subskills. The root skill contains shared workflow rules; `subskills/` contains domain-specific knowledge. Today, only the three-phase grid inverter subskill is active. The other subskills are intentional stubs.
+The repository is organized as a root router plus domain subskills. The root skill contains shared workflow rules; `subskills/` contains domain-specific knowledge. Today, only the three-phase grid inverter subskill is active. The other subskills are intentional stubs that define scope and evidence to collect, not completed methodologies.
 
 ### Design Rules
 
 - Keep `SKILL.md` concise. It routes work and points to references; it should not become a long project prompt.
 - Read `references/domain-map.md` before loading domain-specific material.
-- If a subskill is marked `stub`, use the root workflow and model evidence only.
+- If a subskill is marked `stub`, use it only for scope recognition and evidence selection.
 - Do not copy three-phase inverter assumptions into motor drives, DC-DC converters, BMS, HVDC/FACTS, or other domains.
 - Promote one stub at a time, only after adding references, a realistic workflow, and repeatable validation checks or scripts.
 
@@ -179,13 +179,13 @@ This project is licensed under the Apache License 2.0. See [`LICENSE`](LICENSE).
 
 `simulink-power-electronics` 是一个面向 Simulink 和 Simscape Electrical 电力电子工作的 Codex Skill。它的主要职责是先把任务路由到正确的电力电子子领域，再保证分析和修改都建立在模型证据上。
 
-本仓库采用“根 orchestrator + 领域 subskills”的结构。根 Skill 放公共工作流规则；`subskills/` 放领域知识。目前只有三相并网逆变器子领域是 active，其它子领域都是有意保留的 stub。
+本仓库采用“根路由 Skill + 领域 subskills”的结构。根 Skill 放公共工作流规则；`subskills/` 放领域知识。目前只有三相并网逆变器子领域是 active，其它子领域都是有意保留的 stub，只定义范围和需要收集的证据，不代表已经完成领域方法论。
 
 ### 设计规则
 
 - 保持 `SKILL.md` 简洁。它负责路由和引用资料，不应该变成长项目提示词。
 - 加载领域资料前，先读 `references/domain-map.md`。
-- 如果子领域标记为 `stub`，只使用根工作流和模型证据。
+- 如果子领域标记为 `stub`，只用它识别范围和选择证据。
 - 不要把三相逆变器假设复制到电机驱动、DC-DC、BMS、HVDC/FACTS 或其它领域。
 - 一次只升级一个 stub；只有在补充领域参考、真实工作流、可重复验证检查或脚本后，才把 stub 升级为 active。
 

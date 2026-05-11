@@ -7,9 +7,9 @@ description: Use when working on Simulink or Simscape Electrical resonant conver
 
 ## Status
 
-Stub. Use the root workflow for now. This repository does not yet provide resonant-converter or wireless-power-specific checks.
+Stub. Use this file only to recognize resonant or wireless-power scope and choose evidence to collect. Apply the root workflow; this repository does not yet provide resonant-converter or wireless-power-specific checks.
 
-## Intended Scope
+## Scope
 
 - resonant DC-DC converters
 - inductive wireless power transfer systems
@@ -17,14 +17,13 @@ Stub. Use the root workflow for now. This repository does not yet provide resona
 - frequency-control and soft-switching behavior
 - resonant-tank voltage/current validation
 
-## Not Yet Provided
+## Evidence To Collect
 
-- resonant topology inspection standards
-- ZVS/ZCS validation checks
-- coupled-inductor and compensation-network diagnostics
-- frequency sweep or load sensitivity workflows
-- reusable MATLAB diagnostics
+- resonant topology, compensation network, coupling model, switching frequency, and load condition
+- tank voltage/current, device voltage/current, phase relationship, soft-switching, and output regulation signals
+- frequency sweep, startup, load-step, or coupling-change scenario used for validation
+- parasitic, initial-condition, and measurement-polarity assumptions
 
-## Promotion Criteria
+## Promote When
 
-Promote this stub to active only after adding representative resonant or wireless-power models, tank validation metrics, soft-switching checks, and repeatable simulation workflows.
+Promote only after adding representative resonant or wireless-power models, tank validation metrics, soft-switching checks, and repeatable simulation workflows.

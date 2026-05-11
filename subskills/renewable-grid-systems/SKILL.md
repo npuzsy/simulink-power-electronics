@@ -7,9 +7,9 @@ description: Use when working on Simulink or Simscape Electrical renewable and g
 
 ## Status
 
-Stub. Use the root workflow and any active converter subskill that matches the plant. Do not assume grid-code or PLL checks are fully specified here.
+Stub. Use this file only to recognize renewable/grid-system scope and choose evidence to collect. Apply the root workflow and any active converter subskill that matches the plant; grid-code and PLL checks are not yet fully specified here.
 
-## Intended Scope
+## Scope
 
 - photovoltaic and wind power conversion systems
 - storage-coupled inverters and hybrid plants
@@ -17,14 +17,13 @@ Stub. Use the root workflow and any active converter subskill that matches the p
 - MPPT, PLL, synchronization, islanding, and ride-through behavior
 - grid-code-oriented validation evidence
 
-## Not Yet Provided
+## Evidence To Collect
 
-- grid-code checklist
-- PLL and synchronization diagnostics
-- MPPT validation standards
-- grid-forming vs grid-following control classification
-- reusable MATLAB diagnostics
+- source model, converter topology, grid model, control mode, and active synchronization path
+- PLL, MPPT, DC-link, active/reactive power, current-limit, and protection signals
+- grid disturbance, irradiance/wind/load step, islanding, or ride-through scenario
+- validation windows and any grid-code clause or project requirement being checked
 
-## Promotion Criteria
+## Promote When
 
-Promote this stub to active only after adding references and checks for synchronization, power flow, grid disturbances, ride-through behavior, and representative renewable-source dynamics.
+Promote only after adding references and checks for synchronization, power flow, grid disturbances, ride-through behavior, and representative renewable-source dynamics.

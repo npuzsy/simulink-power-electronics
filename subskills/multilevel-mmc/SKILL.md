@@ -7,9 +7,9 @@ description: Use when working on Simulink or Simscape Electrical multilevel conv
 
 ## Status
 
-Stub. The active three-phase inverter subskill includes T-type and NPC three-level SVPWM notes, but this stub covers future broader multilevel and MMC work.
+Stub. Use this file only to recognize broader multilevel/MMC scope and choose evidence to collect. The active inverter subskill covers only its populated T-type/NPC three-level SVPWM notes.
 
-## Intended Scope
+## Scope
 
 - modular multilevel converters
 - cascaded H-bridge and flying-capacitor converters
@@ -17,14 +17,13 @@ Stub. The active three-phase inverter subskill includes T-type and NPC three-lev
 - arm energy and circulating-current control
 - multilevel modulation and switching-state validation beyond the existing three-level inverter table
 
-## Not Yet Provided
+## Evidence To Collect
 
-- MMC arm/submodule inspection standards
-- capacitor-balancing validation
-- circulating-current and arm-energy diagnostics
-- multilevel modulation references
-- reusable MATLAB diagnostics
+- topology, submodule count, modulation path, balancing strategy, and arm/control hierarchy
+- capacitor voltages, arm currents, circulating current, arm energy, and switching-state signals
+- startup, balancing, step response, or disturbance window used for validation
+- state encoding, bypass/insert assumptions, and measurement polarity
 
-## Promotion Criteria
+## Promote When
 
-Promote this stub to active only after adding representative MMC or broader multilevel workflows, validated modulation references, and checks for submodule states, balancing, and arm energy.
+Promote only after adding representative MMC or broader multilevel workflows, validated modulation references, and checks for submodule states, balancing, and arm energy.

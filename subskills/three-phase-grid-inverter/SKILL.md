@@ -7,16 +7,16 @@ description: Use when working on Simulink or Simscape Electrical three-phase gri
 
 ## Overview
 
-Use this active subskill for three-phase inverter and grid-connected converter work. It contains the currently populated field knowledge in this repository: three-level T-type or NPC SVPWM, state-vector table checks, gate mapping, From/Goto routing risks, and simulation-backed waveform validation.
+Use this active subskill for three-phase grid-connected inverter work. It contains the populated knowledge in this repository: T-type/NPC three-level SVPWM, state-vector table checks, gate mapping, From/Goto routing risks, and simulation-backed waveform validation.
 
 Use the root `simulink-power-electronics` workflow first, then load this subskill when the model is in scope.
 
 ## Resource Map
 
-- Read `references/svpwm-three-level.md` when working on T-type or NPC three-level SVPWM.
-- Read `references/table7-state-vectors.md` when checking or rebuilding 36 small-sector state-vector tables.
-- Use `scripts/svpwm_diagnostics.m` for repeatable MATLAB-side SVPWM gate and waveform diagnostics.
-- Use `scripts/print_table7_state_vectors.py` to print the three-level SVPWM table in JSON or Markdown.
+- Read `references/svpwm-three-level.md` for T-type or NPC three-level SVPWM logic, sector handling, and gate mapping.
+- Read `references/table7-state-vectors.md` when auditing or rebuilding the 36 small-sector state-vector table.
+- Use `scripts/svpwm_diagnostics.m` when MATLAB/Simulink can run and the model exposes state, gate, and voltage signals.
+- Use `scripts/print_table7_state_vectors.py` when a deterministic JSON or Markdown copy of the reference table is needed.
 
 ## In Scope
 
@@ -40,16 +40,24 @@ Use a different subskill or the root workflow for:
 
 ## Workflow Additions
 
-1. Confirm grid-side reference frame, phase sequence, and measurement polarity before interpreting waveforms.
-2. Identify whether the active modulation path is SPWM, SVPWM, a reference implementation, or a commented subsystem.
+1. Confirm grid-side reference frame, phase sequence, measurement polarity, and analysis window before interpreting waveforms.
+2. Identify the active modulation path: SPWM, SVPWM, disabled reference path, or commented subsystem.
 3. Log controller state vectors, final gate vectors, plant-side gate inputs, and phase/line voltage or current measurements.
-4. For three-level SVPWM, compare sector and small-sector state-vector tables against `table7-state-vectors.md`.
-5. For T-type gate mapping, confirm physical switch order before applying `N/O/P` assumptions.
-6. Validate after startup transient, not from the initial transient unless the startup behavior is the target.
+4. For three-level SVPWM, compare every large sector and small sector against `table7-state-vectors.md`; partial sector-I checks are not enough.
+5. For T-type/NPC gate mapping, confirm the physical switch order before applying `N/O/P` assumptions.
+6. Validate after startup transient unless startup behavior is the target.
+
+## Evidence Checks
+
+- controller gate vector equals plant-side gate input
+- no illegal switch state appears in any bridge leg
+- phase and line RMS values are balanced in the selected steady-state window
+- phase sum, DC offset, and current polarity match the model objective
+- sector/state-vector counts are plausible for the modulation method and operating point
 
 ## Automation
 
-For a conventional three-level SVPWM model, add this subskill's `scripts` directory to the MATLAB path and call:
+For a conventional three-level SVPWM model with accessible logging points, add this subskill's `scripts` directory to the MATLAB path and call:
 
 ```matlab
 cfg = struct();

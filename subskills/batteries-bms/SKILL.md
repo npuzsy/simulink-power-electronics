@@ -7,9 +7,9 @@ description: Use when working on Simulink or Simscape Electrical battery, charge
 
 ## Status
 
-Stub. Use the root workflow for model inspection and evidence reporting. Do not infer battery or BMS rules from inverter diagnostics.
+Stub. Use this file only to recognize battery/BMS scope and choose evidence to collect. Apply the root workflow; do not infer battery, charger, or BMS rules from inverter diagnostics.
 
-## Intended Scope
+## Scope
 
 - battery packs and charger power stages
 - BMS-linked converter behavior
@@ -17,14 +17,13 @@ Stub. Use the root workflow for model inspection and evidence reporting. Do not 
 - SOC/SOH-linked control behavior
 - bidirectional charging and storage converter interfaces
 
-## Not Yet Provided
+## Evidence To Collect
 
-- battery model inspection standards
-- balancing and protection validation checks
-- SOC/SOH estimation evidence requirements
-- thermal/electrical coupling diagnostics
-- reusable MATLAB diagnostics
+- cell/pack model type, charger or converter topology, thermal coupling, and protection paths
+- cell voltages/currents, pack voltage/current, SOC/SOH, temperature, balancing, and fault signals
+- charge/discharge profile, current limit, balancing window, or protection trigger scenario
+- sensor polarity, units, initial conditions, and estimation reset assumptions
 
-## Promotion Criteria
+## Promote When
 
-Promote this stub to active only after adding domain references and representative checks for cell voltage/current limits, balancing behavior, charger regulation, protection triggers, and thermal assumptions.
+Promote only after adding domain references and checks for cell voltage/current limits, balancing behavior, charger regulation, protection triggers, and thermal assumptions.

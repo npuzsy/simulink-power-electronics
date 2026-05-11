@@ -11,7 +11,7 @@ Classify by application domain first, then topology, then control method:
 3. control objective: grid current, machine torque/speed, DC-link regulation, MPPT, balancing, protection
 4. validation evidence: gates, currents, voltages, torque/speed, SOC, harmonics, power flow, protection events
 
-If a domain-specific subskill is a stub, use only the root workflow and model evidence. Do not import assumptions from another domain.
+If a domain-specific subskill is a stub, use it only as a scope marker and evidence checklist. Apply the root workflow, inspect the model directly, and do not import assumptions from another domain.
 
 ## Subskill Catalog
 
@@ -32,8 +32,8 @@ If a domain-specific subskill is a stub, use only the root workflow and model ev
 A stub subskill may contain:
 
 - intended scope
-- non-goals
-- placeholder validation categories
+- evidence to collect
+- explicit non-goals
 - source links to investigate later
 
 A stub subskill must not contain:

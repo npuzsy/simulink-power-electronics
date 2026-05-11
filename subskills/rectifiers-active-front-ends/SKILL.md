@@ -7,9 +7,9 @@ description: Use when working on Simulink or Simscape Electrical rectifier or ac
 
 ## Status
 
-Stub. Use the root `simulink-power-electronics` workflow for now. Do not treat this as a populated rectifier/PFC methodology yet.
+Stub. Use this file only to recognize rectifier/AFE scope and choose evidence to collect. Apply the root workflow; this is not yet a populated rectifier or PFC methodology.
 
-## Intended Scope
+## Scope
 
 - diode, thyristor, and controlled rectifiers
 - PWM rectifiers and active front ends
@@ -17,14 +17,13 @@ Stub. Use the root `simulink-power-electronics` workflow for now. Do not treat t
 - DC-link voltage regulation and regenerative power flow
 - input filter and grid-side measurement validation
 
-## Not Yet Provided
+## Evidence To Collect
 
-- rectifier topology inspection standards
-- firing-angle or modulation validation
-- THD, power-factor, and DC-link ripple checks
-- regeneration and protection diagnostics
-- reusable MATLAB diagnostics
+- input source, rectifier topology, firing/modulation path, DC-link target, and load/regeneration path
+- line voltage/current, DC-link voltage/ripple, power factor, and protection signals
+- firing angle, PWM duty/state, synchronization, and measurement polarity assumptions
+- steady-state and transient windows used for current quality or DC-link validation
 
-## Promotion Criteria
+## Promote When
 
-Promote this stub to active only after adding rectifier/PFC-specific references, representative validation windows, and checks for line current, power factor, DC-link ripple, and switching legality.
+Promote only after adding rectifier/PFC references, representative validation windows, and checks for line current, power factor, DC-link ripple, and switching legality.
