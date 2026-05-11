@@ -1,16 +1,36 @@
 # Execution Workflow
 
-Use this workflow for Simulink power-electronics model analysis, waveform debugging, modulation implementation, or model review.
+Use this workflow for Simulink power-electronics model analysis, waveform debugging, modulation implementation, or model review. Select the sub-domain from `domain-map.md` before loading domain-specific references.
+
+## Core Rule
+
+Every diagnosis or edit must be traceable to model evidence. Maintain a short working artifact as you go: intake summary, inspected block paths, assumptions, logged signals, simulation settings, observed defect, edit target, validation result, and remaining risk.
+
+Use the user's language for user-facing notes. Use exact Simulink block paths and signal names for technical claims.
 
 ## 1. Load Context
 
 1. Read project documentation if present.
 2. Identify the main `.slx`, MATLAB release, required toolboxes, and linked guide/specification files.
-3. Identify the converter topology and active control path.
+3. Identify the power-electronics domain, converter topology, and active control path.
 4. Load relevant Simulink skills when available:
    - building Simulink models
    - simulating Simulink models
    - testing Simulink models when persistent tests are requested
+5. If MATLAB MCP or Simulink Agentic Toolkit tools are unavailable, stop model diagnosis and use `mcp-simulink-troubleshooting.md`.
+
+Expected checkpoint:
+
+```text
+Model:
+Domain:
+Topology:
+Active control path:
+Symptom or request:
+Validation signals:
+Tooling status:
+Assumptions:
+```
 
 ## 2. Inspect Before Editing
 
@@ -19,6 +39,20 @@ Use this workflow for Simulink power-electronics model analysis, waveform debugg
 3. Confirm subsystem comment states before diagnosing missing signals.
 4. Inspect From/Goto paths if the plant receives gates through tags.
 5. Record assumptions about signal order, phase sequence, and units.
+6. Identify generated artifacts and do not treat them as source.
+
+Do not edit before this checkpoint unless the user asks for a text-only artifact unrelated to an existing model.
+
+Expected checkpoint:
+
+```text
+Inspected paths:
+Active paths:
+Reference/commented paths:
+Gate order assumption:
+Measurement polarity assumption:
+Generated artifacts observed:
+```
 
 ## 3. Diagnose Waveforms
 
@@ -33,6 +67,9 @@ Use this workflow for Simulink power-electronics model analysis, waveform debugg
    - line RMS balance
    - DC offset
    - conservation checks such as phase sum
+6. Separate observations from inference. If a conclusion is inferred from topology rather than measured logs, label it as inferred.
+
+For SVPWM or gate-routing defects, do not rely on scope appearance alone. At minimum compare final controller gates against plant-side gate inputs.
 
 ## 4. Edit Safely
 
@@ -41,6 +78,14 @@ Use this workflow for Simulink power-electronics model analysis, waveform debugg
 3. Preserve reference implementations unless the user asks to remove them.
 4. Use `model_edit` for structural or parameter edits when possible.
 5. Avoid changing generated artifacts as if they were source.
+6. Make one conceptual change at a time when simulation feedback is available.
+
+Save gate:
+
+- Do not save a model immediately after structural edits.
+- Run update diagram first.
+- Run the minimum simulation needed to check the edited behavior.
+- Save only after validation passes, unless the user explicitly asks for an unsaved draft state.
 
 ## 5. Validate
 
@@ -54,6 +99,22 @@ Minimum validation:
 
 For reusable tests, create persistent model tests instead of one-off scripts.
 
+Recommended evidence table:
+
+```text
+Check                         Result
+Update diagram                pass/fail
+Simulation stop time          ...
+Analysis window               ...
+Gate mismatch samples         ...
+Illegal switch states         ...
+Phase RMS                     ...
+Line RMS                      ...
+Phase sum / DC offset         ...
+```
+
+If a validation step cannot run because of missing MATLAB, missing toolboxes, long runtime, licensing, or unavailable model files, report that as a verification gap rather than a pass.
+
 ## 6. Report
 
 Include:
@@ -64,3 +125,20 @@ Include:
 - simulation duration and analysis window
 - numerical verification
 - remaining risks or recommended next checks
+
+## Parallel Work
+
+Use parallel work only for independent tasks with clear artifacts, such as:
+
+- one read-only agent inspecting plant topology while another inspects controller logic
+- one agent comparing an SVPWM table against `subskills/three-phase-grid-inverter/references/table7-state-vectors.md` while another prepares simulation signals
+- one agent reviewing report wording while the main agent owns model edits
+
+Do not split:
+
+- edits to the same `.slx`
+- save operations
+- final root-cause synthesis
+- tasks that require shared MATLAB state unless the toolchain explicitly supports isolated sessions
+
+For complex splits, read `agent-contracts.md` and assign each worker an input, owned paths, forbidden paths, required output, and validation evidence.

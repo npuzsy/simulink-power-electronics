@@ -1,14 +1,15 @@
 ---
 name: simulink-power-electronics
-description: Analyze, build, debug, and verify Simulink and Simscape Electrical power-electronics models, especially three-phase inverters, grid-connected converters, SPWM/SVPWM modulation, T-type or NPC three-level bridges, gate-signal routing, solver/simulation issues, and waveform validation. Use when Codex works on Simulink power electronics projects, reads converter design guides or PDFs, modifies modulation/control subsystems, diagnoses incorrect scope waveforms, compares expected and actual gate pulses, or creates reusable project documentation and simulation evidence.
-license: Apache-2.0
+description: Use when working on Simulink or Simscape Electrical power-electronics models, including converters, inverters, rectifiers, motor drives, DC-DC converters, renewable and grid systems, batteries, HVDC/FACTS, gate routing, solver issues, waveform debugging, converter design guides, or simulation evidence.
 ---
 
 # Simulink Power Electronics
 
 ## Overview
 
-Use this skill to turn a power-electronics waveform symptom into a model-grounded diagnosis, a scoped Simulink edit, and a numerical verification report. Prefer signal logging, model topology, and repeatable simulations over visual guesses.
+Use this skill to route Simulink power-electronics work to the right sub-domain, then turn a model symptom or design request into model-grounded analysis, scoped edits, and numerical verification. Prefer signal logging, topology inspection, and repeatable simulations over visual guesses.
+
+Treat this `SKILL.md` as the top-level orchestrator. Keep general workflow in `references/`, reusable outputs in `assets/`, deterministic checks in `scripts/`, and domain-specific knowledge in `subskills/`.
 
 ## Prerequisites
 
@@ -17,75 +18,47 @@ For direct Simulink model access, expect MATLAB R2023a or later, Simulink, MATLA
 ## Resource Map
 
 - Read `references/workflow.md` for the end-to-end inspection, diagnosis, edit, and validation loop.
+- Read `references/domain-map.md` to choose the correct power-electronics sub-domain.
 - Read `references/model-standards.md` before editing Simulink or Simscape Electrical converter models.
 - Read `references/mcp-simulink-troubleshooting.md` when MATLAB MCP, Simulink Agentic Toolkit, `satk_initialize`, or agent tool discovery fails.
-- Read `references/svpwm-three-level.md` when working on T-type or NPC three-level SVPWM.
-- Read `references/table7-state-vectors.md` when checking or rebuilding 36 small-sector state-vector tables.
+- Read `references/agent-contracts.md` only for large reviews where independent model, control, waveform, or validation work must be split explicitly.
 - Read `references/output-standards.md` before writing reports or review findings.
-- Use `scripts/svpwm_diagnostics.m` for repeatable MATLAB-side SVPWM gate and waveform diagnostics.
-- Use `scripts/print_table7_state_vectors.py` to print the three-level SVPWM table in JSON or Markdown.
+- Read `subskills/three-phase-grid-inverter/SKILL.md` for active three-phase grid-connected inverter, SPWM/SVPWM, T-type or NPC three-level bridge, gate-routing, and waveform-balance work.
+- Treat all other `subskills/*/SKILL.md` files as stubs until their references and validation scripts are populated.
 - Use templates in `assets/` for project README and diagnostic reports.
+
+## Subskill Routing
+
+1. Identify the application domain before loading detailed references.
+2. If the work is a three-phase grid-connected inverter, load `subskills/three-phase-grid-inverter/SKILL.md` and its references/scripts.
+3. If the work maps to a stub subskill, use only the root workflow and public MathWorks/model evidence; do not borrow three-phase inverter assumptions unless the user explicitly asks.
+4. If the domain is ambiguous, classify by plant topology, control objective, energy source/load, and validation signals before editing.
 
 ## Responsibilities
 
-1. Identify the converter topology, active control path, modulation method, and expected measurements.
-2. Inspect the model before editing: hierarchy, subsystem comment state, From/Goto tags, signal dimensions, solver settings, and generated artifacts.
-3. Diagnose control and plant issues using logged signals and simulation outputs.
-4. Keep fixes scoped to the responsible subsystem unless the user explicitly asks for broader refactoring.
-5. Validate gate routing, legal switch states, phase/line voltage balance, and transient-vs-steady-state behavior.
-6. Persist durable project facts when requested, without leaking machine-specific private context into open-source artifacts.
+1. Own sequencing: intake, inspection, diagnosis, scoped edit, validation, and final synthesis.
+2. Keep one write owner for each model, script, report, or persistent artifact.
+3. Identify the domain, converter topology, active control path, modulation/control method, and expected measurements before editing.
+4. Inspect hierarchy, subsystem comment state, From/Goto tags, signal dimensions, solver settings, and generated artifacts.
+5. Validate gate routing, legal switch states, phase/line voltage balance, and transient-vs-steady-state behavior with logged data.
+6. Persist durable project facts only when requested, without leaking machine-specific private context into open-source artifacts.
 
 ## Execution Steps
 
-1. Load context.
-   - Read project documentation if present.
-   - Identify the main `.slx`, relevant PDF/specification, MATLAB release, required toolboxes, and intended active control path.
-   - Load available Simulink skills for model building, simulation, and testing.
-   - If Simulink MCP tools are missing or stale, diagnose setup before analyzing the model.
+Follow `references/workflow.md`. In brief:
 
-2. Inspect before editing.
-   - Use Simulink model tools to inspect hierarchy and connections.
-   - Confirm which controller path is active and which paths are reference or intentionally commented.
-   - Treat duplicate global Goto tags as a routing risk; verify actual signals by logging.
+1. Build an intake summary: model path, domain, topology, active control path, required toolboxes, target symptom, and validation signals.
+2. Inspect before editing. Confirm active vs reference paths, From/Goto routing, commented subsystems, sample times, solver settings, and measurement polarity.
+3. Diagnose with artifacts: capture logged controller, gate, plant-input, and waveform evidence before proposing a fix.
+4. Edit only the smallest responsible source. Preserve disabled reference implementations and generated artifacts unless the user asks otherwise.
+5. Validate before saving or claiming success: update diagram, simulation, gate legality, plant-side gate match, and numerical waveform checks.
+6. Report the root cause, changed paths, unchanged intentional state, simulation window, numerical evidence, and remaining risk.
 
-3. Diagnose with evidence.
-   - Log intermediate controller signals, final gate vectors, root plant gate inputs, and relevant voltage/current measurements.
-   - Simulate at least one fundamental cycle. Simulate longer when filters or plants have startup transients.
-   - Compare expected and actual state counts, gate patterns, RMS values, and conservation checks such as `Va+Vb+Vc`.
-
-4. Edit safely.
-   - Use `model_edit` for model edits when possible.
-   - Preserve intentionally disabled reference implementations.
-   - Fix table, mapping, or routing defects at their source rather than adding compensating inversions downstream.
-   - Avoid rearranging plant layout or generated artifacts unless needed.
-
-5. Validate and report.
-   - Run update diagram.
-   - Run simulation-based checks.
-   - Save only after validation passes.
-   - Report the root cause, changed paths, unchanged intentional state, simulation window, and key numerical evidence.
+Use parallel analysis only when work is genuinely independent, read-only or disjoint-write, and the merge cost is justified. Keep shared model edits, save operations, final diagnosis, and user-facing synthesis serial.
 
 ## Automation
 
-For a conventional three-level SVPWM model, add this skill's `scripts` directory to the MATLAB path and call:
-
-```matlab
-cfg = struct();
-cfg.model = "YourModel";
-cfg.svpwmSubsystem = "YourModel/SVPWM";
-cfg.stateBlock = "YourModel/SVPWM/Subsystem1";
-cfg.gateBlock = "YourModel/SVPWM/Subsystem3";
-cfg.voltageBlocks = ["YourModel/Voltage Measurement2", "YourModel/Voltage Measurement3", "YourModel/Voltage Measurement4"];
-cfg.stopTime = "0.10";
-report = svpwm_diagnostics(cfg);
-```
-
-For the bundled table reference:
-
-```bash
-python3 scripts/print_table7_state_vectors.py --format markdown
-python3 scripts/print_table7_state_vectors.py --format json
-```
+Use subskill scripts only after the domain is selected. The currently active automation lives under `subskills/three-phase-grid-inverter/scripts/`.
 
 ## Output Standard
 
