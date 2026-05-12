@@ -15,8 +15,10 @@ Use the root `simulink-power-electronics` workflow first, then load this subskil
 
 - Read `references/svpwm-three-level.md` for T-type or NPC three-level SVPWM logic, sector handling, and gate mapping.
 - Read `references/table7-state-vectors.md` when auditing or rebuilding the 36 small-sector state-vector table.
+- Read `references/vsg-control-notes.md` for VSG (Virtual Synchronous Generator) control implementation, PI tuning experience, power calculation verification, and feedforward formulas specific to grid-connected inverters.
 - Use `scripts/svpwm_diagnostics.m` when MATLAB/Simulink can run and the model exposes state, gate, and voltage signals.
 - Use `scripts/print_table7_state_vectors.py` when a deterministic JSON or Markdown copy of the reference table is needed.
+- Also read the root `references/control-algorithm-debugging.md` for general control algorithm debugging methodology and signal-tracing procedures.
 
 ## In Scope
 
@@ -26,6 +28,10 @@ Use the root `simulink-power-electronics` workflow first, then load this subskil
 - SPWM, SVPWM, and closely related discontinuous PWM checks
 - phase/line voltage balance, current balance, DC offset, and phase-sum checks
 - controller-to-plant gate ordering and legal switching states
+- VSG (Virtual Synchronous Generator) grid-forming inverter control
+- PI controller tuning, anti-windup mechanisms, and feedforward design
+- S-Function based control algorithm implementation and debugging
+- Power calculation verification (P/Q) with Clarke/Park transform coefficients
 
 ## Out Of Scope
 
