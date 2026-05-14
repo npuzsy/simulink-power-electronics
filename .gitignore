@@ -1,0 +1,22 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# MATLAB/Simulink generated artifacts
+slprj/
+*.slxc
+*.asv
+*.autosave
+*.m~
+*.slx.r20*
+*.mdl.r20*
+
+# PE loop generated corpus, downloads, logs, manifests, and reports.
+# These files are local research artifacts and can be hundreds of MB.
+data/pe-loop/
+
+# Local generated model demos for visual inspection.
+data/generated-models/
+
+# macOS
+.DS_Store

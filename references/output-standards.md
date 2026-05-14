@@ -18,6 +18,7 @@ For a completed fix, include:
 - root cause
 - model or file areas changed
 - verification simulations or checks run
+- validation state: opened, compiled, simulated, and measured
 - key numerical results
 - anything intentionally left unchanged
 
@@ -39,6 +40,7 @@ Prefer concrete numbers:
 - state or duty counts
 - gate mismatch sample count
 - solver diagnostics
+- missing libraries, unresolved references, or required initialization scripts
 
 When a result is inferred from logs or topology, say it is inferred.
 

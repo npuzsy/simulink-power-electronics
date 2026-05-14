@@ -12,8 +12,9 @@ Use the user's language for user-facing notes. Use exact Simulink block paths an
 
 1. Read project documentation if present.
 2. Identify the main `.slx`, MATLAB release, required toolboxes, and linked guide/specification files.
-3. Identify the power-electronics domain, converter topology, and active control path.
-4. Load relevant Simulink skills when available:
+3. Classify each model file as top-level runnable model, library/reference model, test harness, generated artifact, or helper subsystem.
+4. Identify the power-electronics domain, converter topology, and active control path.
+5. Load relevant Simulink skills when available:
    - building Simulink models
    - simulating Simulink models
    - testing Simulink models when persistent tests are requested
@@ -23,6 +24,7 @@ Expected checkpoint:
 
 ```text
 Model:
+Model role:
 Domain:
 Topology:
 Active control path:
@@ -38,8 +40,9 @@ Assumptions:
 2. Inspect plant topology, control topology, measurement blocks, and signal routing.
 3. Confirm subsystem comment states before diagnosing missing signals.
 4. Inspect From/Goto paths if the plant receives gates through tags.
-5. Record assumptions about signal order, phase sequence, and units.
-6. Identify generated artifacts and do not treat them as source.
+5. Separate active Variant Subsystem choices from inactive/all-variant content.
+6. Record assumptions about signal order, phase sequence, and units.
+7. Identify generated artifacts and do not treat them as source.
 
 Do not edit before this checkpoint unless the user asks for a text-only artifact unrelated to an existing model.
 
@@ -88,6 +91,13 @@ Save gate:
 - Save only after validation passes, unless the user explicitly asks for an unsaved draft state.
 
 ## 5. Validate
+
+Track validation state explicitly:
+
+- `opened`: MATLAB can open the model.
+- `compiled`: update diagram succeeds.
+- `simulated`: a simulation completed.
+- `measured`: logged signals or output data were numerically checked.
 
 Minimum validation:
 
