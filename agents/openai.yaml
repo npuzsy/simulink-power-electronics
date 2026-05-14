@@ -1,4 +1,4 @@
 interface:
   display_name: "Simulink Power Electronics"
-  short_description: "Route and verify Simulink power-electronics work."
-  default_prompt: "Use $simulink-power-electronics to classify a Simulink power-electronics model, load the relevant subskill, inspect topology and control paths, diagnose waveform or gate-signal issues, make scoped fixes when appropriate, and report simulation-backed evidence."
+  short_description: "Inspect, debug, lay out, and validate Simulink PE models."
+  default_prompt: "Use $simulink-power-electronics to classify a Simulink power-electronics model, load the relevant subskill, inspect topology/control paths and Simscape layout, diagnose waveform or gate-signal issues, make scoped fixes when appropriate, and report validation evidence."
