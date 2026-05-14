@@ -74,6 +74,8 @@ Generated artifacts observed:
 
 For SVPWM or gate-routing defects, do not rely on scope appearance alone. At minimum compare final controller gates against plant-side gate inputs.
 
+For control algorithm defects (current tracking, power regulation, dq transform issues), use the signal-tracing methodology from `control-algorithm-debugging.md`: trace backward level by level from modulation output through controller output, error signals, reference values, dq transform, and raw measurements. At each level, locate the anomaly and find the root cause before moving to the next.
+
 ## 4. Edit Safely
 
 1. Keep edits scoped to the smallest responsible subsystem.
