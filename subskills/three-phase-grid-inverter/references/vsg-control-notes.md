@@ -2,6 +2,13 @@
 
 Use this reference for VSG (Virtual Synchronous Generator) grid-forming inverter control, PI tuning, power calculation verification, and S-Function based control algorithm implementation.
 
+## Contents
+
+- VSG Control Architecture
+- PI Controller Tuning
+- Power Calculation Verification
+- S-Function Implementation Notes
+
 ## VSG Control Architecture
 
 VSG is a grid-forming control strategy that mimics synchronous generator behavior. Unlike PLL-based grid-following control, VSG generates its own angle and voltage reference.

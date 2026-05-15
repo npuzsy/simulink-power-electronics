@@ -18,7 +18,7 @@ Use the root `simulink-power-electronics` workflow first, then load this subskil
 - Read `references/vsg-control-notes.md` for VSG (Virtual Synchronous Generator) control implementation, PI tuning experience, power calculation verification, and feedforward formulas specific to grid-connected inverters.
 - Use `scripts/svpwm_diagnostics.m` when MATLAB/Simulink can run and the model exposes state, gate, and voltage signals.
 - Use `scripts/print_table7_state_vectors.py` when a deterministic JSON or Markdown copy of the reference table is needed.
-- Also read the root `references/control-algorithm-debugging.md` for general control algorithm debugging methodology and signal-tracing procedures.
+- Also read the root `../../references/control-algorithm-debugging.md` for general control algorithm debugging methodology and signal-tracing procedures.
 
 ## In Scope
 
@@ -61,7 +61,7 @@ Use a different subskill or the root workflow for:
 - phase sum, DC offset, and current polarity match the model objective
 - sector/state-vector counts are plausible for the modulation method and operating point
 
-## Automation
+## Scripts
 
 For a conventional three-level SVPWM model with accessible logging points, add this subskill's `scripts` directory to the MATLAB path and call:
 

@@ -7,7 +7,7 @@ description: Use when working on Simulink or Simscape Electrical motor-drive pow
 
 ## Status
 
-Developing active subskill. Use this file to recognize motor-drive scope and choose evidence to collect. Apply the root `simulink-power-electronics` workflow; do not reuse grid-inverter assumptions unless the inspected model path is genuinely shared.
+Developing subskill. Use this file to recognize motor-drive scope and choose evidence to collect. Apply the root `simulink-power-electronics` workflow; do not reuse grid-inverter assumptions unless the inspected model path is genuinely shared.
 
 Read `references/inspection.md` for corpus-derived inspection notes before diagnosing motor-drive examples. Treat those notes as developing guidance, not a complete methodology.
 

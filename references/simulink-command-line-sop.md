@@ -2,6 +2,15 @@
 
 Use this reference for command-line simulation execution and data reading procedures in MATLAB/Simulink.
 
+## Contents
+
+- Standard Procedure
+- Data Source Priority
+- Important Notes
+- Scope Data Structure
+- Steady-State Analysis
+- Common Pitfalls
+
 ## Standard Procedure
 
 ```matlab
@@ -35,7 +44,7 @@ fprintf('Mean: %.0f\n', mean(P(idx)));
 
 When multiple data sources are available, use in this order:
 
-1. **Scope measured data** (highest priority) — The actual waveform is the truth
+1. **Scope or logged measured data** — the primary evidence for actual behavior
 2. **To Workspace** — Structured data written to workspace
 3. **mexPrintf** — Internal S-Function logging, may have errors
 
@@ -43,7 +52,8 @@ When multiple data sources are available, use in this order:
 
 ### Workspace Clearing
 
-Always clear the workspace before running simulation to prevent stale data from previous runs from contaminating results:
+Clear the workspace before repeatable command-line simulations to prevent stale
+data from previous runs from contaminating results:
 
 ```matlab
 evalin('base', 'clear');
@@ -107,7 +117,7 @@ rms_value = rms(signal(idx));
 
 | Pitfall | Symptom | Fix |
 |---------|---------|-----|
-| Stale workspace data | Results don't change after model edit | Always `evalin('base','clear')` before sim |
+| Stale workspace data | Results don't change after model edit | Use `evalin('base','clear')` before sim |
 | Wrong variable name | Empty or missing data | Check exact variable names in model |
 | fieldnames() incomplete | Missing logged signals | Use direct property access instead |
 | Model not saved | sim() uses old model | Save model before running sim() |

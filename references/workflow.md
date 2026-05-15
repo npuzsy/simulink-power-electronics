@@ -2,6 +2,17 @@
 
 Use this workflow for Simulink power-electronics model analysis, waveform debugging, modulation implementation, or model review. Select the sub-domain from `domain-map.md` before loading domain-specific references.
 
+## Contents
+
+- Core Rule
+- 1. Load Context
+- 2. Inspect Before Editing
+- 3. Diagnose Waveforms
+- 4. Edit Safely
+- 5. Validate
+- 6. Report
+- Parallel Work
+
 ## Core Rule
 
 Every diagnosis or edit must be traceable to model evidence. Maintain a short working artifact as you go: intake summary, inspected block paths, assumptions, logged signals, simulation settings, observed defect, edit target, validation result, and remaining risk.

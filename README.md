@@ -15,10 +15,27 @@ Codex Skill。它负责领域分类、模型检查、波形/门极调试、Simsc
 - Guides model inspection before edits: solver settings, variants, From/Goto
   paths, plant/control split, measurement polarity, and generated artifacts.
 - Provides active three-phase inverter SVPWM/gate-routing diagnostics.
+- Adds grid-inverter control-algorithm tracing for VSG, PI/feedforward issues,
+  and P/Q coefficient checks.
 - Provides developing DC-DC and motor-drive inspection guidance.
 - Captures Simscape Electrical schematic layout rules learned from official and
   open-source examples.
 - Tracks validation state as `opened`, `compiled`, `simulated`, and `measured`.
+
+It does not manage OS-level schedulers, background jobs, or general Codex
+automation orchestration.
+
+## Quick Use
+
+Install or copy this folder as a Codex skill, restart Codex, then invoke it with
+`$simulink-power-electronics` when reviewing, editing, generating, or validating
+Simulink power-electronics models.
+
+With the Codex skill installer:
+
+```text
+$skill-installer install https://github.com/npuzsy/simulink-power-electronics
+```
 
 ## Layout Guidance Example
 
@@ -63,7 +80,7 @@ simulink-power-electronics/
 
 | Subskill | Status | Scope |
 | --- | --- | --- |
-| `three-phase-grid-inverter` | active | SPWM/SVPWM, three-level inverter gate routing, waveform balance |
+| `three-phase-grid-inverter` | active | SPWM/SVPWM, three-level inverter gate routing, waveform balance, VSG/control tracing |
 | `dc-dc-converters` | developing | Buck/boost/buck-boost, regulation evidence, schematic layout |
 | `motor-drives` | developing | PMSM/BLDC/induction drive inspection and control-path tracing |
 | others | stub | Scope markers and evidence checklists |
@@ -84,7 +101,7 @@ Recommended environment:
 Run repository checks:
 
 ```bash
-python3 scripts/validate_skill_structure.py
+python3 scripts/validate_skill_structure.py --quiet
 python3 subskills/three-phase-grid-inverter/scripts/print_table7_state_vectors.py --format json
 ```
 

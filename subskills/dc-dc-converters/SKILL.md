@@ -7,7 +7,7 @@ description: Use when working on Simulink or Simscape Electrical DC-DC converter
 
 ## Status
 
-Developing stub. Use this file to recognize DC-DC converter scope and choose evidence to collect. Apply the root workflow; do not reuse inverter waveform-balance rules for regulation or ripple problems.
+Developing subskill. Use this file to recognize DC-DC converter scope and choose evidence to collect. Apply the root workflow; do not reuse inverter waveform-balance rules for regulation or ripple problems.
 
 Read `references/inspection.md` for corpus-derived inspection notes before diagnosing DC-DC examples. Treat those notes as developing guidance, not a complete methodology.
 

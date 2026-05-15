@@ -1,6 +1,19 @@
 # Control Algorithm Debugging Methodology
 
-Use this reference when debugging control algorithms in Simulink power-electronics models, especially for S-Function based implementations, VSG (Virtual Synchronous Generator) inverters, and grid-connected control systems.
+Use this reference when debugging control algorithms in Simulink
+power-electronics models. For grid-inverter VSG, PI/feedforward, and P/Q
+formula details, also read
+`subskills/three-phase-grid-inverter/references/vsg-control-notes.md`.
+
+## Contents
+
+- Key Understanding
+- Signal Tracing Methodology
+- Guardrails
+- Control Parameter Checks
+- Power Calculation Verification Checklist
+- Common Issues Quick Reference
+- Debugging Workflow for Control Algorithms
 
 ## Key Understanding
 
@@ -19,45 +32,41 @@ When output is abnormal, trace backward along the signal chain level by level:
 
 **At each level, locate the anomaly and find the root cause. Do not skip levels.**
 
-## Iron Rules
+## Guardrails
 
-These rules must never be violated:
+Apply these guardrails to avoid fitting symptoms instead of debugging the
+implementation:
 
-1. **Always trust Scope/oscilloscope measured data.** S-Function internal mexPrintf calculations may have errors (sign errors, coefficient omissions, transform errors). The only basis for judging control effectiveness is the actual waveform from Scope.
-2. **Never close a model without saving.** Any time `close_system`/`bdclose` is needed, the user must first Ctrl+S in the GUI.
-3. **Control parameters have physical meaning. Never use "fitted ratios" to correct.** Clarke/Park transform coefficients (1.5, 2/3, sqrt(3)) all have mathematical derivation sources. When internal and external values disagree, find the root cause (line-to-line vs phase-to-ground, transform coefficient, sign convention), not a number to fit.
-4. **Do not act blindly without data.** If signal data cannot be read, immediately ask the user for help.
-5. **When stuck, ask the user immediately.** Do not drill into a problem alone for dozens of steps.
-6. **Engineer mindset, not programmer mindset.** Find root cause -> understand why -> fix from source. No workarounds allowed.
+1. **Prefer measured waveforms over internal printouts.** S-Function
+   `mexPrintf` calculations may contain sign, coefficient, or transform errors.
+   Use Scope/logged output as the main evidence for control effectiveness, then
+   use internal values to localize the implementation defect.
+2. **Do not close a dirty model implicitly.** Before `close_system` or
+   `bdclose`, verify whether the model has unsaved changes and ask the user if
+   the intended state is unclear.
+3. **Control parameters have physical meaning.** Clarke/Park transform
+   coefficients such as 1.5, 2/3, and sqrt(3) come from defined transform and
+   voltage conventions. When internal and external values disagree, trace line
+   voltage vs phase voltage, transform coefficient, sign convention, and units
+   instead of introducing a fitted correction ratio.
+4. **Stop when required data is missing.** If signal data cannot be read through
+   available tools, ask the user for the missing signal, screenshot, or GUI
+   state instead of continuing from guesses.
+5. **Fix from the source.** Prefer root-cause fixes over downstream
+   compensation unless the downstream compensation is explicitly part of the
+   control design.
 
-## PI Parameter Tuning Experience
+## Control Parameter Checks
 
-### Anti-Windup Trap
+Use these checks before changing gains:
 
-Back-calculation anti-windup (`*integrator = y_sat - kp*error`) can lock the integrator at the negative limit when `kp*error` is large, requiring extremely long recovery time.
+- confirm controller sample time and S-Function internal `TS`
+- check saturation and anti-windup behavior before increasing PI gains
+- compare required integrator recovery time with simulation stop time
+- verify that feedforward formulas and units match upstream measurements
+- confirm sign conventions before compensating with negative gains
 
-- When `kp*error` is large, the integrator gets clamped and cannot recover
-- Typical symptom: output stuck at lower limit for extended periods
-- Fix: increase KI, use conditional integration, or redesign the anti-windup mechanism
-
-### Feedforward Priority
-
-The main control quantity should use physical formula direct calculation (feedforward) as much as possible. PI is only for fine-tuning.
-
-- If PI is struggling to correct a large steady-state error, the feedforward formula or parameters are wrong
-- Example for grid-connected current reference:
-  ```
-  id_ref = Pref / (k * Vd)     % k = 1.5 (Clarke amplitude-invariant)
-  iq_ref = -Qref / (k * Vd)    % sign depends on Q convention
-  ```
-- The coefficient `k` must be consistent with the P/Q calculation coefficient system upstream
-
-### Integral Gain Recovery Time
-
-When KI is too small, integrator recovery time may far exceed simulation duration.
-
-- Example: KI=10, TS=1e-4, integrator recovery from -40 to 0 takes approximately 4 seconds
-- If simulation stop time is shorter than this, the system will appear to never reach steady state
+For concrete VSG and grid-current formulas, use the inverter VSG reference.
 
 ## Power Calculation Verification Checklist
 
@@ -74,59 +83,6 @@ When S-Function internal P/Q disagrees with Scope, check in order:
 | P deviation ~1.5x | alpha-beta to power coefficient error, or line/phase voltage confusion |
 | Q sign reversed | alpha/beta order or sign error in Q formula |
 | P/Q both very small | Input port not connected (floating) |
-
-## Feedforward Calculation Formulas
-
-For grid-connected current reference values, prefer feedforward (physical formula direct calculation):
-
-```
-id_ref = Pref / (k * Vd)     % k = 1.5 (Clarke amplitude-invariant)
-iq_ref = -Qref / (k * Vd)    % sign depends on Q convention
-```
-
-Where `k` must be exactly consistent with the P/Q calculation coefficient system upstream.
-
-Voltage and current sign conventions:
-
-```text
-         | Voltage | Current | P/Q sign convention
----------|---------|---------|--------------------
-P (active)  | k*(vα·iα+vβ·iβ) | Consistent with load direction
-Q (reactive) | k*(vβ·iα-vα·iβ) | Sign depends on α/β ordering
-```
-
-## VSG (Virtual Synchronous Generator) Control Notes
-
-### Self-Synchronization
-
-Grid-forming VSG inverters do not need PLL. The angle is generated by the swing equation, and power balance maintains synchronization.
-
-- VSG generates its own reference angle through the swing equation: `J*(dω/dt) = Pm - Pe - D*(ω-ω0)`
-- The angle theta is obtained by integrating omega: `theta = integral(omega)`
-- Power balance is maintained through the virtual inertia and damping coefficients
-
-### VSG Control Structure
-
-Typical VSG control path:
-
-```
-Power Reference (Pref, Qref)
-    -> Swing Equation (virtual inertia J, damping D)
-    -> Angle theta (from integrating omega)
-    -> Voltage Reference (from reactive power droop)
-    -> dq/abc Transform
-    -> PWM Modulation
-    -> Gate Signals
-```
-
-### VSG vs PLL-based Control
-
-| Aspect | VSG (Grid-forming) | PLL-based (Grid-following) |
-|--------|-------------------|---------------------------|
-| Synchronization | Self-synchronized via swing equation | Tracks grid via PLL |
-| Angle source | Internal integration | PLL output |
-| Weak grid performance | Better, provides voltage support | May lose synchronization |
-| Inertia | Virtual inertia (J parameter) | No inherent inertia |
 
 ## Common Issues Quick Reference
 
@@ -145,20 +101,22 @@ Power Reference (Pref, Qref)
 
 ### Phase 1: Initialization
 
-Once the user mentions Simulink simulation, immediately:
+When debugging a control algorithm:
 
 1. Identify model path (.slx) and S-Function code (.c/.m)
 2. Use MATLAB MCP to read model structure, list all blocks and connections
 3. Confirm all S-Function input ports are connected
 4. Record Scope/To Workspace variable names
 
-### Phase 2: Requirement Confirmation (Plan Mode)
+### Phase 2: Requirement Confirmation
 
-Confirm with user: desired effect, control algorithm type, feedback signal source, reference value settings. Ask questions immediately, do not assume.
+Confirm the desired effect, control algorithm type, feedback signal source, and
+reference value settings. Ask targeted questions when those inputs are not
+available from the model.
 
 ### Phase 3: Debug Execution
 
-1. First look at Scope waveform (actual effect), then internal variables
+1. First inspect measured/logged waveforms, then internal variables
 2. Trace level by level along signal chain: angle -> dq transform -> controller output -> modulation signal
 3. When anomaly found, first check control parameters (Kp/Ki/limit values/TS)
 4. **Trace to the end, do not work around from the middle**

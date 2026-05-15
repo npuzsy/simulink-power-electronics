@@ -17,7 +17,11 @@ Use this loop to evolve the skill from real Simulink and Simscape Electrical exa
    - Prefer whole example/project folders when available.
    - Copying a single `.slx` is enough for block-usage analysis, but often not enough for update diagram or simulation because initialization scripts, data files, dictionaries, and referenced libraries may be missing.
 4. Analyze models in small batches using MATLAB MCP tools serially.
-   - Use `scripts/pe_loop_select_batches.py --runnable-only` for simulation-backed batches.
+   - Select one small batch at a time from the manifest.
+   - Prefer candidates with complete project folders, initialization scripts,
+     data dictionaries, and referenced libraries when simulation-backed
+     conclusions are needed.
+   - Open, inspect, and close each model before moving to the next one.
    - Use library/helper models for module-interface learning, not waveform conclusions.
 5. Extract common patterns:
    - module and library usage

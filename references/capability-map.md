@@ -8,7 +8,7 @@ Use the skill to identify and reason about common power-electronics modules:
 
 - converter power stages: inverter, DC-DC converter, rectifier, chopper, multilevel converter
 - electrical infrastructure: sources, loads, sensors, breakers, `powergui`, Solver Configuration, electrical references
-- control blocks: PWM, SPWM, SVPWM, PLL, current controllers, speed/torque controllers, MPPT, balancing logic
+- control blocks: PWM, SPWM, SVPWM, PLL, VSG, PI/feedforward loops, current controllers, speed/torque controllers, MPPT, balancing logic
 - measurement blocks: voltage/current sensors, RMS/THD/power calculation, scopes, logged signals, buses
 
 Module guidance must be grounded in inspected model paths. When the model uses a MathWorks library block, inspect block parameters and library references before inferring behavior from the display name.
@@ -29,6 +29,7 @@ Common edit targets:
 
 - incorrect source table or lookup values
 - wrong sign, phase sequence, unit scaling, or per-unit base
+- line/phase voltage, Clarke/Park coefficient, or P/Q sign convention mismatch
 - mismatched gate order between controller and plant
 - missing initialization variables or data dictionary links
 - wrong active variant or commented subsystem
@@ -53,6 +54,7 @@ This skill adds the PE-specific layer:
 - domain routing across PE applications
 - topology/control-path inspection checklists
 - gate, modulation, measurement, and waveform diagnostics
+- control-algorithm signal tracing for selected PE controllers
 - solver and sample-time pitfalls common in power electronics
 - example-driven rules learned from official and public PE models
 
@@ -74,6 +76,12 @@ Read `references/self-iteration-loop.md` before running the loop.
 Active, domain-specific capability:
 
 - three-phase grid inverter SVPWM and gate/waveform diagnostics
+- grid-inverter VSG/control-algorithm tracing, PI/feedforward checks, and
+  P/Q coefficient consistency checks
+
+Not included:
+
+- OS-level schedulers, background jobs, or persistent automation orchestration
 
 Developing capability from current corpus:
 

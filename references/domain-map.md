@@ -19,7 +19,7 @@ rules, but still require model evidence before diagnosis or edits.
 
 | Subskill | Status | Use for |
 | --- | --- | --- |
-| `subskills/three-phase-grid-inverter` | active | three-phase grid-connected inverters, T-type or NPC three-level bridges, SPWM/SVPWM, gate routing, grid voltage/current waveform balance |
+| `subskills/three-phase-grid-inverter` | active | three-phase grid-connected inverters, T-type or NPC three-level bridges, SPWM/SVPWM, VSG/control tracing, gate routing, grid voltage/current waveform balance |
 | `subskills/motor-drives` | developing | PMSM, BLDC, induction motor, FOC, DTC, torque/speed/current loops, inverter-fed machine drives |
 | `subskills/dc-dc-converters` | developing | buck, boost, buck-boost, flyback, forward, resonant, bidirectional DC-DC, MPPT front ends, generated schematic layout |
 | `subskills/rectifiers-active-front-ends` | stub | diode/thyristor rectifiers, PWM rectifiers, active front ends, PFC, DC-link regulation |

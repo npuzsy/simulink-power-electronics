@@ -2,6 +2,12 @@
 
 Use this reference when MATLAB MCP, Simulink Agentic Toolkit, or agent tool discovery fails before model analysis can begin.
 
+## Contents
+
+- First Checks
+- Common Setup Problems
+- Lessons From Power-Electronics Model Work
+
 Sources reviewed on 2026-05-10:
 
 - Official Simulink skills repository: https://github.com/simulink/skills
