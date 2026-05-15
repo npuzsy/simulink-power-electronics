@@ -25,6 +25,9 @@ Codex Skill。它负责领域分类、模型检查、波形/门极调试、Simsc
 It does not manage OS-level schedulers, background jobs, or general Codex
 automation orchestration.
 
+The root skill is intentionally thin. It routes to one domain subskill and one
+or two references instead of loading the whole repository into context.
+
 ## Quick Use
 
 Install or copy this folder as a Codex skill, restart Codex, then invoke it with
@@ -87,14 +90,31 @@ simulink-power-electronics/
 
 ## Toolchain
 
-Recommended environment:
+Required for real model work:
 
 - MATLAB R2023a or later
 - Simulink
-- Simscape Electrical for physical PE models
 - MATLAB MCP Core Server
 - Simulink Agentic Toolkit
-- Official Simulink skills from MathWorks
+
+Required when the model uses physical electrical networks:
+
+- Simscape
+- Simscape Electrical
+
+Recommended companion skills:
+
+- Simulink Agentic Toolkit or model-based-design skills for generic build,
+  edit, simulate, and test mechanics
+
+Platform notes:
+
+- macOS and Linux are the cleanest targets for current MCP workflows.
+- Windows can work, but MCP subprocess environment and socket/file permission
+  issues are more common. See `references/mcp-simulink-troubleshooting.md`.
+- If MATLAB MCP or Simulink Agentic Toolkit tools are unavailable, this skill
+  should report a tooling gap instead of pretending to inspect or validate
+  Simulink models.
 
 ## Validation
 

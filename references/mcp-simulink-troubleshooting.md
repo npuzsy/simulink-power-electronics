@@ -5,12 +5,13 @@ Use this reference when MATLAB MCP, Simulink Agentic Toolkit, or agent tool disc
 ## Contents
 
 - First Checks
+- Platform And Dependency Boundary
 - Common Setup Problems
 - Lessons From Power-Electronics Model Work
 
 Sources reviewed on 2026-05-10:
 
-- Official Simulink skills repository: https://github.com/simulink/skills
+- Simulink skills repository: https://github.com/simulink/skills
 - MATLAB MCP Core Server README: https://github.com/matlab/matlab-mcp-core-server
 - Simulink Agentic Toolkit README and Getting Started guide: https://github.com/matlab/simulink-agentic-toolkit
 - MathWorks Simulink Agentic Toolkit page: https://www.mathworks.com/products/simulink-agentic-toolkit.html
@@ -35,6 +36,35 @@ Sources reviewed on 2026-05-10:
    satk_initialize
    ```
 5. Restart the coding agent or reload the IDE after `satk_initialize`.
+
+## Platform And Dependency Boundary
+
+This repository is a PE domain skill. It assumes the model tooling is already
+provided by MATLAB MCP, Simulink Agentic Toolkit, and the official Simulink
+skills bundled with the current agent/toolkit environment. Do not encode
+host-specific install automation or scheduler behavior in this skill.
+
+Minimum tool surface for model diagnosis:
+
+| Need | Required tool surface |
+| --- | --- |
+| Read hierarchy, ports, blocks, and connections | `model_overview` or `model_read` |
+| Query block/model parameters | `model_query_params` or `model_resolve_params` |
+| Edit structure or parameters | `model_edit` |
+| Run MATLAB snippets or scripts | `evaluate_matlab_code` or `run_matlab_file` |
+| Persistent behavioral tests | `model_test` plus Simulink Test |
+
+Practical platform notes:
+
+- macOS and Linux are preferred for unattended skill iteration because MCP
+  process startup and file permissions tend to be simpler.
+- Windows is supported only when the installed MATLAB MCP server and agent host
+  can pass the required environment variables and access their socket/log paths.
+- GUI-only actions, screenshots, and manual Simulink layout inspection are
+  optional evidence. The skill should still prefer MCP-readable structure and
+  numeric simulation results.
+- If the minimum tool surface is missing, stop model-level diagnosis and report
+  the missing tools as a verification gap.
 
 ## Common Setup Problems
 

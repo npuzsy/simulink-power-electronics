@@ -2,6 +2,14 @@
 
 This skill provides four practical capabilities for Simulink and Simscape Electrical power-electronics work.
 
+## Contents
+
+- 1. Common PE Module Usage
+- 2. PE Model Debugging
+- 3. Supplement To Official Simulink Skills
+- 4. Self-Iteration Mechanism
+- Current Ability Boundary
+
 ## 1. Common PE Module Usage
 
 Use the skill to identify and reason about common power-electronics modules:
@@ -39,9 +47,9 @@ Common edit targets:
 
 Do not call a waveform issue fixed until the relevant inputs, outputs, and plant-side signals have been logged or measured numerically.
 
-## 3. Supplement To Official Simulink Skills
+## 3. Supplement To Simulink Skills
 
-Official Simulink skills own generic operations:
+Simulink Agentic Toolkit or model-based-design skills own generic operations:
 
 - model creation and structural edits
 - parameter queries and variable resolution
@@ -57,6 +65,13 @@ This skill adds the PE-specific layer:
 - control-algorithm signal tracing for selected PE controllers
 - solver and sample-time pitfalls common in power electronics
 - example-driven rules learned from official and public PE models
+
+Lean boundary:
+
+- keep generic Simulink mechanics in official skills
+- keep domain-specific PE routing and evidence rules in this skill
+- keep long topology notes in references or subskills, not the root `SKILL.md`
+- do not promote example-specific findings unless they recur or are validated
 
 ## 4. Self-Iteration Mechanism
 
@@ -82,6 +97,9 @@ Active, domain-specific capability:
 Not included:
 
 - OS-level schedulers, background jobs, or persistent automation orchestration
+- general MATLAB scripting guidance unrelated to PE models
+- generic Simulink build/test procedures already owned by Simulink skills
+- claims of model validation when MATLAB MCP or required toolboxes are missing
 
 Developing capability from current corpus:
 

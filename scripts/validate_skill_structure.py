@@ -33,6 +33,7 @@ OPENAI_YAML_REQUIRED_FIELDS = (
 OPENAI_SHORT_DESCRIPTION_MIN = 25
 OPENAI_SHORT_DESCRIPTION_MAX = 64
 REFERENCE_TOC_LINE_THRESHOLD = 100
+ROOT_SKILL_LINE_LIMIT = 120
 
 
 def display(path: Path, root: Path) -> str:
@@ -158,6 +159,21 @@ def validate_skill_frontmatter(root: Path):
     return failures
 
 
+def validate_root_skill_size(root: Path):
+    path = root / "SKILL.md"
+    if not path.exists():
+        return []
+    line_count = path.read_text(encoding="utf-8").count("\n") + 1
+    if line_count > ROOT_SKILL_LINE_LIMIT:
+        return [
+            (
+                path,
+                f"root SKILL.md has {line_count} lines; keep it under {ROOT_SKILL_LINE_LIMIT} as a router",
+            )
+        ]
+    return []
+
+
 def tracked_generated_artifacts(root: Path):
     try:
         output = subprocess.check_output(
@@ -226,6 +242,7 @@ def main() -> int:
 
     missing = []
     frontmatter_failures = validate_skill_frontmatter(root)
+    root_skill_size_failures = validate_root_skill_size(root)
     openai_yaml_failures = validate_openai_yaml(root)
     toc_failures = validate_long_reference_toc(root)
     generated_artifacts = tracked_generated_artifacts(root)
@@ -261,6 +278,9 @@ def main() -> int:
     for skill_file, reason in frontmatter_failures:
         print(f"frontmatter missing: {display(skill_file, root)} -> {reason}", file=sys.stderr)
 
+    for skill_file, reason in root_skill_size_failures:
+        print(f"skill too large: {display(skill_file, root)} -> {reason}", file=sys.stderr)
+
     for yaml_file, reason in openai_yaml_failures:
         print(f"openai.yaml invalid: {display(yaml_file, root)} -> {reason}", file=sys.stderr)
 
@@ -280,6 +300,7 @@ def main() -> int:
     failed = (
         missing
         or frontmatter_failures
+        or root_skill_size_failures
         or openai_yaml_failures
         or toc_failures
         or generated_artifacts

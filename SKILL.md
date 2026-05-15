@@ -13,11 +13,20 @@ logged signals, simulations, and numeric checks.
 ## Core Workflow
 
 1. Classify by domain, topology, and control objective.
-2. Read only the references needed for the task.
-3. Prefer MATLAB MCP and Simulink Agentic Toolkit evidence. If those tools are
+2. Load only the narrow context needed: usually `references/workflow.md`, one
+   domain subskill, and one triggered reference.
+3. Prefer MATLAB MCP and Simulink Agentic Toolkit evidence. If model tools are
    unavailable, report the gap and stop model diagnosis.
 4. Track validation state explicitly: `opened`, `compiled`, `simulated`,
    `measured`.
+
+## Lean Loading Rules
+
+- Treat this root file as a router, not a handbook.
+- Do not bulk-load README, every reference, or every subskill.
+- Read platform and MCP setup details only when tool status is uncertain.
+- Promote new notes only when they are grounded in official sources, inspected
+  models, or repeatable validation.
 
 ## Read When Needed
 
@@ -30,15 +39,17 @@ logged signals, simulations, and numeric checks.
   PI/feedforward, and P/Q checks.
 - `references/simulink-command-line-sop.md` for command-line simulation and
   output reading.
-- `references/mcp-simulink-troubleshooting.md` when MCP/tool discovery fails.
+- `references/mcp-simulink-troubleshooting.md` for supported platform, MCP
+  dependency, or tool discovery questions.
 - `references/output-standards.md` before reports.
 - `references/capability-map.md` only when asked about scope.
 - `references/self-iteration-loop.md` and `references/example-derived-patterns.md`
   for corpus/self-improvement.
 - `subskills/three-phase-grid-inverter/SKILL.md` for active grid-inverter work.
 - Treat other `subskills/*/SKILL.md` files as evidence guides until populated.
-- Use official Simulink skills for generic build, edit, simulate, and test
-  mechanics; use this skill for PE-specific routing and evidence rules.
+- Use Simulink Agentic Toolkit or model-based-design skills for generic build,
+  edit, simulate, and test mechanics; use this skill for PE-specific routing
+  and evidence rules.
 - Use `assets/` templates when output needs a project README or diagnostic
   report.
 
@@ -72,6 +83,8 @@ logged signals, simulations, and numeric checks.
 
 - This skill does not manage OS-level schedulers, background jobs, or other
   system automation.
+- This skill does not replace Simulink build/simulate/test skills; it adds
+  PE-specific routing, evidence standards, and diagnostics.
 - Keep downloaded corpora, generated models, caches, and long-loop outputs out
   of source control under `data/pe-loop/` or `data/generated-models/`.
 
