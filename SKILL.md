@@ -22,11 +22,13 @@ logged signals, simulations, and numeric checks.
 
 ## Lean Loading Rules
 
-- Treat this root file as a router, not a handbook.
+- Treat this root file as a **router**, not a handbook.
 - Do not bulk-load README, every reference, or every subskill.
 - Read platform and MCP setup details only when tool status is uncertain.
-- Promote new notes only when they are grounded in official sources, inspected
-  models, or repeatable validation.
+- Only run corpus/self-improvement work when the user explicitly allows this
+  skill to self-iterate.
+- When self-iteration is enabled, promote new notes only when they are grounded
+  in official sources, inspected models, or repeatable validation.
 
 ## Read When Needed
 
@@ -44,7 +46,7 @@ logged signals, simulations, and numeric checks.
 - `references/output-standards.md` before reports.
 - `references/capability-map.md` only when asked about scope.
 - `references/self-iteration-loop.md` and `references/example-derived-patterns.md`
-  for corpus/self-improvement.
+  for user-approved corpus/self-improvement.
 - `subskills/three-phase-grid-inverter/SKILL.md` for active grid-inverter work.
 - Treat other `subskills/*/SKILL.md` files as evidence guides until populated.
 - Use Simulink Agentic Toolkit or model-based-design skills for generic build,
