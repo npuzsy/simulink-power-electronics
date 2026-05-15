@@ -7,7 +7,8 @@ of generic Simulink model-building and simulation tools.
 
 中文摘要：`simulink-power-electronics` 是一个面向 Codex 的
 Simulink/Simscape Electrical 电力电子 Skill，用于帮助识别拓扑、检查模型、
-调试波形和控制链路、优化元件布局与走线，并用可复查的仿真证据说明结果。
+调试波形和控制链路、优化元件布局与走线，并在工具可用时用可复查的仿真证据
+说明结果。
 
 ## What It Does / 它能做什么
 
@@ -18,12 +19,13 @@ Simulink/Simscape Electrical 电力电子 Skill，用于帮助识别拓扑、检
   edits.
 - Helps debug three-phase grid inverters, including SPWM/SVPWM, gate mapping,
   waveform balance, VSG control paths, and P/Q checks.
-- Guides signal logging and measurement-point selection so model outputs can be
-  collected at key plant and control locations for performance analysis.
+- Guides signal logging and measurement-point selection so key plant/control
+  outputs can be collected for performance analysis when model tools are
+  available.
 - Provides developing inspection guidance for DC-DC converters and motor-drive
   models.
 - Adjusts Simulink and Simscape component placement and wiring using layout
-  patterns learned from MathWorks examples and open-source projects.
+  heuristics derived from reviewed MathWorks examples and open-source projects.
 - Reports validation state explicitly as `opened`, `compiled`, `simulated`, or
   `measured`.
 
@@ -32,9 +34,11 @@ Simulink/Simscape Electrical 电力电子 Skill，用于帮助识别拓扑、检
   分层、测量极性和生成产物。
 - 支持三相并网逆变器的 SPWM/SVPWM、门极映射、波形平衡、VSG 控制链路和
   P/Q 检查。
-- 指导 AI 选择和读取关键 plant/control 位置的输出信号，用于辅助模型性能分析。
+- 指导 AI 选择 signal logging 和 measurement points，并在模型工具可用时读取关键
+  plant/control 输出信号，用于辅助性能分析。
 - 为 DC-DC converter 和 motor-drive 模型提供开发中的检查清单。
-- 可以基于 MathWorks 样例和开源项目经验调整 Simulink/Simscape 元件布局和走线。
+- 可以基于已审阅 MathWorks 样例和开源项目提炼出的启发式规则，调整
+  Simulink/Simscape 元件布局和走线。
 - 在结果中明确区分 `opened`、`compiled`、`simulated`、`measured` 等验证状态。
 
 ## Quick Use
@@ -148,6 +152,7 @@ Platform notes:
 Before committing, run:
 
 ```bash
+python3 scripts/check_environment.py
 python3 scripts/validate_skill_structure.py --quiet
 python3 subskills/three-phase-grid-inverter/scripts/print_table7_state_vectors.py --format json
 ```

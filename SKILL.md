@@ -7,8 +7,8 @@ description: Use when working on Simulink or Simscape Electrical power-electroni
 
 Use this skill for Simulink/Simscape Electrical power-electronics work:
 model inspection, waveform/control debugging, schematic layout, validation, and
-corpus self-improvement. Keep conclusions grounded in inspected block paths,
-logged signals, simulations, and numeric checks.
+user-approved corpus self-improvement. Keep conclusions grounded in inspected
+block paths, logged signals, simulations, and numeric checks.
 
 ## Core Workflow
 
@@ -16,7 +16,8 @@ logged signals, simulations, and numeric checks.
 2. Load only the narrow context needed: usually `references/workflow.md`, one
    domain subskill, and one triggered reference.
 3. Prefer MATLAB MCP and Simulink Agentic Toolkit evidence. If model tools are
-   unavailable, report the gap and stop model diagnosis.
+   unavailable, continue only with file/document/script review and report that
+   model-level inspection or validation is blocked.
 4. Track validation state explicitly: `opened`, `compiled`, `simulated`,
    `measured`.
 
