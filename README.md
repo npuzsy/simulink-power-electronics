@@ -130,6 +130,11 @@ Models that use physical electrical networks also require:
 Use Simulink Agentic Toolkit or model-based-design skills for generic model
 creation, editing, simulation, and testing mechanics.
 
+Optional companion skill:
+
+- `using-superpowers`: improves skill-discovery discipline before starting work.
+  See `references/companion-skills.md`.
+
 Platform notes:
 
 - macOS and Linux are the preferred targets for the current MCP workflow.

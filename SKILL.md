@@ -43,6 +43,8 @@ logged signals, simulations, and numeric checks.
   output reading.
 - `references/mcp-simulink-troubleshooting.md` for supported platform, MCP
   dependency, or tool discovery questions.
+- `references/companion-skills.md` when asked about optional external skills,
+  including `using-superpowers`.
 - `references/output-standards.md` before reports.
 - `references/capability-map.md` only when asked about scope.
 - `references/self-iteration-loop.md` and `references/example-derived-patterns.md`
