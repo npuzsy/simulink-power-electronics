@@ -37,7 +37,9 @@ block paths, logged signals, simulations, and numeric checks.
 - `references/workflow.md` for inspect -> diagnose -> edit -> validate.
 - `references/model-standards.md` before editing PE models.
 - `references/layout-patterns-from-examples.md` and
-  `references/simscape-layout.md` for generated or repaired Simscape schematics.
+  `references/simscape-layout.md` for generated or repaired Simscape
+  schematics, especially when plant, control, measurement, and scope wiring
+  make the top level hard to read.
 - `references/control-algorithm-debugging.md` for control tracing,
   PI/feedforward, and P/Q checks.
 - `references/simulink-command-line-sop.md` for command-line simulation and
@@ -69,6 +71,9 @@ block paths, logged signals, simulations, and numeric checks.
   voltage, transform, sign, or unit errors.
 - For Simscape layout, classify nodes before drawing and keep common/return
   nodes local.
+- For block-heavy PE models, make the top level an architecture view: separate
+  plant/power electronics from control/scenario/diagnostics, then connect those
+  areas with named `Goto`/`From` tags or buses.
 - Validate before success: update diagram, run the minimum relevant
   simulation, compare plant-side gates, check legal switch states, and report
   numeric results.

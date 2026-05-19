@@ -3,6 +3,13 @@
 Use after `references/layout-patterns-from-examples.md` when generating or
 repairing component-level Simscape Electrical schematics.
 
+## Contents
+
+- Use `Node-First Procedure` for the physical circuit inside the plant.
+- Use `Subsystem-First Layout For Larger Models` when top-level plant and
+  control wiring are tangled.
+- Use `Acceptance Criteria` before claiming the layout is readable.
+
 ## Core Principle
 
 Draw a schematic, not a generic graph. Automatic layout and `routeLine` can
@@ -25,6 +32,66 @@ Then place blocks so important ports face their node:
 - keep high-degree common nodes local as rails or local reference symbols
 - keep control and measurement routing outside the main power loop
 - put sensors adjacent to the node they measure
+
+## Subsystem-First Layout For Larger Models
+
+For models with enough blocks that plant and control lines obscure the
+schematic, split layout before routing individual lines:
+
+- top level: one plant/power-electronics subsystem, one control subsystem, and
+  optional diagnostics or scenario subsystems
+- plant subsystem: Simscape network, power stage, local return/common rails,
+  sensors, and Simulink-PS or PS-Simulink converter blocks
+- control subsystem: references, regulators, filters, limiters, estimators,
+  scenario profiles, command generation, and protection logic
+- diagnostics subsystem: computed power/SOC signals, scopes, displays, and data
+  logs when those blocks would clutter the controller
+- cross-boundary signals: use explicit `Goto`/`From` tags or buses with units in
+  names; avoid long top-level wires through the plant
+- validation: after refactoring hierarchy, update diagram and simulate using
+  the same measurement windows used before the layout change
+
+This pattern is especially useful for averaged converters, storage systems,
+microgrids, BMS-linked plants, and other systems where control paths are much
+denser than the physical plant.
+
+Inside the plant subsystem, still draw a circuit schematic:
+
+- arrange the main energy path left to right from source/storage to converter,
+  DC bus, filter, grid, or load
+- place the return, neutral, DC-link midpoint, or electrical reference close to
+  the devices that share it
+- place voltage and current sensors next to the node or branch being measured
+- keep PS-Simulink converter outputs near the sensors, then send measured
+  signals out through subsystem ports or `Goto` blocks
+- keep Simulink-PS converter inputs near actuated plant elements, such as duty
+  commands, load-resistance commands, or controlled sources
+
+Inside the control subsystem, draw a signal-flow diagram:
+
+- arrange reference or scenario inputs on the left
+- arrange droop sharing, PI/current control, filters, limiters, and modulation
+  left to right in the order they execute
+- keep feedback `From` blocks near the controller stage that consumes them
+- put command `Goto` blocks at the right edge so plant-facing commands are easy
+  to find
+
+Cross-boundary naming should make signal direction obvious without opening the
+subsystems. Examples:
+
+- `Vbus_V`: plant bus-voltage measurement used by control and diagnostics
+- `Ibatt1_A`, `Ibatt2_A`: plant battery-current measurements
+- `Pbat1_W`, `Pbat2_W`: computed battery powers for droop verification
+- `Icmd1_A`, `Icmd2_A`: control current commands sent to converters
+- `Rload_Ohm`: scenario or control command sent to a variable resistor
+- `GateBatt1`, `GateBatt2`, or `DutyBatt1`, `DutyBatt2`: converter commands
+
+For droop-controlled parallel storage, keep the ratio logic readable. Put the
+sharing law, gains, and limits together in `Control`; expose the measured
+powers and commands to `Diagnostics`; keep the two battery/converter branches
+parallel and symmetric in `Power_Electronics`. If one branch is intended to
+deliver twice the other, label the references or droop gains so the intended
+2:1 sharing target is visible without tracing constants through the plant.
 
 ## Acceptance Criteria
 

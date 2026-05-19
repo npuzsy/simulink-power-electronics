@@ -2,6 +2,13 @@
 
 Use this reference before editing Simulink or Simscape Electrical power-electronics models.
 
+## Contents
+
+- Start with `Inspection Standard` before changing any model.
+- Use `Complex Model Layout Standard` before cleaning up block-heavy layouts.
+- Use `Simscape Electrical Plant Safety` and `Simscape Electrical Layout Safety`
+  before touching physical networks.
+
 ## Inspection Standard
 
 Before editing:
@@ -30,6 +37,28 @@ From/Goto routing is common in Simulink power electronics models, but it is easy
 - Do not treat a missing or ambiguous From/Goto as a bug until commented subsystems are checked.
 - If duplicate global tags exist in reference and active controller paths, verify actual plant gate signals by logging root From outputs.
 - Do not comment internal Goto blocks inside a subsystem when the parent subsystem is intentionally commented unless there is a specific reason.
+
+## Complex Model Layout Standard
+
+When plant, control, measurement, and diagnostic blocks would make the top
+level hard to read, split them into clear subsystems before optimizing line
+routing. Put the power-electronics plant apart from control/scenario/diagnostic
+logic, and use explicit `Goto`/`From` tags or buses for cross-boundary signals.
+Treat this as required for generated or repaired PE models when a user asks for
+clearer layout, when long signal lines cross the plant, or when scopes and
+computed signals dominate the top-level canvas.
+
+The minimum acceptable split is:
+
+- plant/power electronics subsystem: physical network, converters, storage,
+  load, sensors, local references, PS conversion around sensors and actuators
+- control subsystem: references, droop logic, regulators, filters, limits,
+  modulation or command generation
+- diagnostics or scenario subsystem when profiles, computed measurements, and
+  scopes would otherwise obscure control
+
+For detailed layout rules, read `references/layout-patterns-from-examples.md`
+and `references/simscape-layout.md`.
 
 ## Simscape Electrical Plant Safety
 
