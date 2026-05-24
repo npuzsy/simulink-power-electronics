@@ -57,6 +57,25 @@ The minimum acceptable split is:
 - diagnostics or scenario subsystem when profiles, computed measurements, and
   scopes would otherwise obscure control
 
+Use short subsystem names whenever practical. Preferred names include `Power`,
+`Control`, `Diagnostics`, `Load`, `Plant`, and `Power_Electronics`. Avoid long
+subsystem names that describe the whole implementation; put that detail in an
+annotation instead.
+
+For generated or rebuilt Simulink power-electronics models, prefer ordinary
+block relationships (`Gain`, `Sum`, `Product`, `Transfer Fcn`, `Integrator`,
+`Saturation`, sensors, converters, `Goto`/`From`) over monolithic MATLAB
+Function blocks. A MATLAB Function block is acceptable for a compact algorithm,
+lookup, or controller kernel, but it should not hide the main plant topology,
+power path, or control architecture when the user asked for a model.
+
+For block spacing in generated diagrams, use a compact readable default:
+
+- typical horizontal/vertical clearance between neighboring blocks: 25 px
+- minimum clearance: 20 px
+- maximum routine clearance: 30 px, unless extra separation is needed to
+  separate functional zones or prevent line crossings
+
 For detailed layout rules, read `references/layout-patterns-from-examples.md`
 and `references/simscape-layout.md`.
 

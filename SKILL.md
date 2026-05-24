@@ -12,13 +12,16 @@ block paths, logged signals, simulations, and numeric checks.
 
 ## Core Workflow
 
-1. Classify by domain, topology, and control objective.
-2. Load only the narrow context needed: usually `references/workflow.md`, one
+1. At the start of a session, look for and use the local `superpowers`
+   skill or other skill which has a likely name when it is installed. It is valuable process guidance for selecting
+   and sequencing other skills; user instructions still take precedence.
+2. Classify by domain, topology, and control objective.
+3. Load only the narrow context needed: usually `references/workflow.md`, one
    domain subskill, and one triggered reference.
-3. Prefer MATLAB MCP and Simulink Agentic Toolkit evidence. If model tools are
+4. Prefer MATLAB MCP and Simulink Agentic Toolkit evidence. If model tools are
    unavailable, continue only with file/document/script review and report that
    model-level inspection or validation is blocked.
-4. Track validation state explicitly: `opened`, `compiled`, `simulated`,
+5. Track validation state explicitly: `opened`, `compiled`, `simulated`,
    `measured`.
 
 ## Lean Loading Rules
@@ -71,9 +74,16 @@ block paths, logged signals, simulations, and numeric checks.
   voltage, transform, sign, or unit errors.
 - For Simscape layout, classify nodes before drawing and keep common/return
   nodes local.
+- When generating or rebuilding models, prefer visible block-and-connection
+  structure over hiding complex plant or controller relationships inside one
+  large MATLAB Function block. Use functions only for small, well-contained
+  algorithms or when the user explicitly asks for script/function generation.
 - For block-heavy PE models, make the top level an architecture view: separate
   plant/power electronics from control/scenario/diagnostics, then connect those
   areas with named `Goto`/`From` tags or buses.
+- Keep subsystem names short and conventional. Prefer names like `Power`,
+  `Control`, `Diagnostics`, `Load`, `Plant`, or `Power_Electronics` over long
+  descriptive names that clutter the top level.
 - Validate before success: update diagram, run the minimum relevant
   simulation, compare plant-side gates, check legal switch states, and report
   numeric results.

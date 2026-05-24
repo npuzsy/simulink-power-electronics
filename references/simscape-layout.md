@@ -40,6 +40,9 @@ schematic, split layout before routing individual lines:
 
 - top level: one plant/power-electronics subsystem, one control subsystem, and
   optional diagnostics or scenario subsystems
+- subsystem names should be short and scan-friendly. Use names such as
+  `Power`, `Control`, `Diagnostics`, `Load`, `Plant`, or
+  `Power_Electronics`; move longer explanations to annotations
 - plant subsystem: Simscape network, power stage, local return/common rails,
   sensors, and Simulink-PS or PS-Simulink converter blocks
 - control subsystem: references, regulators, filters, limiters, estimators,
@@ -50,6 +53,17 @@ schematic, split layout before routing individual lines:
   names; avoid long top-level wires through the plant
 - validation: after refactoring hierarchy, update diagram and simulate using
   the same measurement windows used before the layout change
+
+When generating a Simulink model rather than a text-only derivation, make the
+model readable as blocks and relationships. Do not hide the main electrical
+plant, storage interface, load path, or droop/control architecture inside a
+single large MATLAB Function block. Use ordinary Simulink/Simscape blocks and
+named `Goto`/`From` tags so the topology can be inspected visually.
+
+Use compact, consistent spacing. For routine generated layouts, target 25 px
+horizontal and vertical clearance between neighboring blocks, allow 20 px as
+the minimum, and avoid exceeding 30 px unless separating larger functional
+zones or removing unavoidable wire crossings.
 
 This pattern is especially useful for averaged converters, storage systems,
 microgrids, BMS-linked plants, and other systems where control paths are much
