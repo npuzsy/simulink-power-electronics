@@ -1,5 +1,9 @@
 # Simulink Power Electronics Skill
 
+<!-- yarkr:badges:start -->
+[![Indexed on Yarkr](https://api.yarkr.com/functions/v1/api/api/v1/badges/repos/npuzsy/simulink-power-electronics/version.svg)](https://yarkr.com/arks/npuzsy/simulink-power-electronics)
+<!-- yarkr:badges:end -->
+
 `simulink-power-electronics` is a Codex skill for Simulink and Simscape
 Electrical power-electronics models. It adds domain-specific guidance for
 topology recognition, signal debugging, schematic layout, and validation on top
@@ -156,6 +160,38 @@ python3 scripts/check_environment.py
 python3 scripts/validate_skill_structure.py --quiet
 python3 subskills/three-phase-grid-inverter/scripts/print_table7_state_vectors.py --format json
 ```
+
+<!-- yarkr:install:start -->
+## Install with Yarkr
+
+This repo is indexed on [Yarkr](https://yarkr.com/arks/npuzsy/simulink-power-electronics) as the ark [npuzsy/simulink-power-electronics](https://yarkr.com/arks/npuzsy/simulink-power-electronics), so its skills install into Claude Code, Codex, Cursor and other agent harnesses with one command.
+
+### CLI
+
+Install the whole ark, which Yarkr keeps equal to this repo:
+
+```bash
+npx yarkr-cli sync npuzsy/simulink-power-electronics
+```
+
+Or add individual skills:
+
+```bash
+npx yarkr-cli add skill:npuzsy/simulink-power-electronics/simulink-power-electronics
+```
+
+No Node.js? `curl -fsSL https://yarkr.com/install.sh | sh` (macOS, Linux) or `irm https://yarkr.com/install.ps1 | iex` (Windows PowerShell) installs `yarkr` as a standalone binary; then type `yarkr` in place of `npx yarkr-cli`.
+
+### MCP
+
+Connect your agent to the ark over MCP:
+
+```bash
+npx yarkr-cli mcp add npuzsy/simulink-power-electronics
+```
+
+Or point any MCP client at `https://api.yarkr.com/functions/v1/api/mcp/o/npuzsy/simulink-power-electronics`.
+<!-- yarkr:install:end -->
 
 ## Contributing
 
